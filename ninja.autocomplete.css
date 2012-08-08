@@ -1,0 +1,28 @@
+.nui-atc {
+  display: inline-block;
+  font: small-caption;
+  position: relative;
+}
+.nui-atc > input,
+.nui-atc > div {
+  font: inherit;
+}
+.nui-atc > div {
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(126, 157, 186);
+  border-top: 1px solid rgb(126, 157, 186);
+  left: 0;
+  position: absolute;
+  min-width: 100%;
+  z-index: +1;
+}
+.nui-atc > div > div {
+  border-left: 1px solid rgb(126, 157, 186);
+  border-right: 1px solid rgb(126, 157, 186);
+  padding: 2px;
+  white-space: nowrap;
+}
+.nui-hvr {
+  background-color: rgb(51, 118, 220);
+  color: rgb(255, 255, 255);
+}

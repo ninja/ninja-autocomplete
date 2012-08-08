@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ninja Autosuggest Tests</title>
+    <link href="../node_modules/ninja/node_modules/mocha/mocha.css" rel="stylesheet">
+    <link href="../node_modules/ninja/ninja.css" rel="stylesheet">
+    <link href="../ninja.autocomplete.css" rel="stylesheet">
+  </head>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td>JavaScript Ajax</td>
+          <td>data-list attribute</td>
+          <td>&lt;datalist&gt;</td>
+          <td style="background:#eee">&lt;datalist&gt; (HTML5 native)</td>
+        </tr>
+        <tr>
+          <td>
+            <input id="dvd" placeholder="Amazon DVDs" type="text"/>
+          </td>
+          <td>
+            <input data-ninja="autocomplete" data-list='["chicken recipes", "chicken recipes for kids", "chicken recipes healthy", "chicken recipes easy"]'  placeholder="chicken recipes" type="text"/>
+          </td>
+          <td>
+    <input data-ninja="autocomplete" list="treenuts" placeholder="tree nuts" type="text"/>
+          </td>
+          <td style="background:#eee">
+    <input list="treenuts" placeholder="tree nuts" type="text"/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <datalist id="treenuts">
+      <option value="Almond"/>
+      <option value="Beech nut"/>
+      <option value="Brazil nut"/>
+      <option value="Butternut"/>
+      <option value="Cashew"/>
+      <option value="Chestnut"/>
+      <option value="Chinquapin"/>
+      <option value="Coconut"/>
+      <option value="Filbert/hazelnut"/>
+      <option value="Ginko nut"/>
+      <option value="Hickory nut"/>
+      <option value="Lichee nut"/>
+      <option value="Macadamia nut/Bush nut"/>
+      <option value="Pecan"/>
+      <option value="Pine nut/Pinon nut"/>
+      <option value="Pistachio"/>
+      <option value="Sheanut"/>
+      <option value="Walnut/Heartnut"/>
+    </datalist>
+    <div id="mocha"></div>
+    <script src="../node_modules/ninja/test/jquery/jquery-1.7.2.js"></script>
+    <script src="../node_modules/ninja/ninja.js"></script>
+    <script src="../ninja.autocomplete.js"></script>
+    <script>
+      (function ($) {
+        $('input#dvd').ninja('autocomplete', {
+          get: function(q, callback) {
+            $.ajax({
+              url: 'http://completion.amazon.com/search/complete',
+              dataType: 'jsonp',
+              data: {
+                q: q,
+                mkt: 1,
+                'search-alias': 'dvd'
+              },
+              success: function (data) {
+                callback(data[1]);
+              },
+              error: function (request, status, message) {
+                $.error(message);
+              }
+            });
+          }
+        });
+
+        $.ninja.initialize();
+
+      }(window.jQuery))
+    </script>
+    <script src="../node_modules/ninja/node_modules/chai/chai.js"></script>
+    <script src="../node_modules/ninja/node_modules/chai-jquery/chai-jquery.js"></script>
+    <script src="../node_modules/ninja/node_modules/mocha/mocha.js"></script>
+    <script>
+      var expect = chai.expect;
+      mocha.setup('bdd');
+    </script>
+    <script src="../node_modules/ninja/test/test.js"></script>
+    <script src="../node_modules/ninja/test/test.component.js"></script>
+    <script src="test.autocomplete.js"></script>
+    <script>
+      (function ($) {
+        mocha.run();
+      }(window.jQuery))
+    </script>
+  </body>
+</html>
+
