@@ -127,7 +127,7 @@
       if (!autocomplete.$element.val()) {
         autocomplete.$list.remove();
       } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
-        if (autocomplete.get && $.isFunction(autocomplete.get)) {
+        if ($.isFunction(autocomplete.get)) {
           autocomplete.get(autocomplete.$element.val(), function (datalist) {
             autocomplete.datalist = datalist;
 
