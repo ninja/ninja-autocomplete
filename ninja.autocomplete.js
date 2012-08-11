@@ -98,7 +98,7 @@
         autocomplete.$list.remove();
       } else if (keycode === $.ninja.keys.enter && autocomplete.index > -1) {
         autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]).blur();
-       } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
+      } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
         if (autocomplete.index > -1) {
           autocomplete.$list.find(':eq(' + autocomplete.index + ')').removeClass('nui-hvr');
         }
