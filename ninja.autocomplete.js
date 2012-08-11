@@ -53,14 +53,14 @@
 
     if (autocomplete.matchlist.length > 0) {
       $.each(autocomplete.matchlist, function () {
-        var html = this;
+        var option = this;
 
         $('<div>', {
-          html: html
+          html: option
         }).on('hover.ninja', function () {
           $(this).toggleClass('nui-hvr');
         }).on('mousedown.ninja', function () {
-          autocomplete.$element.val(html);
+          autocomplete.$element.val(option);
         }).appendTo(autocomplete.$list);
       });
 
