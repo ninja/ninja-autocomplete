@@ -5,7 +5,7 @@ var Config = function () {
     autocomplete: require('./autocomplete')
   };
   this.styles = [
-    __dirname + '/../../source/ninja.autocomplete',
+    __dirname + '/../../source/ninja.autocomplete'
   ];
 };
 

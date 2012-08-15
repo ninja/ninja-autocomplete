@@ -1,13 +1,9 @@
-/*
-  Ninja Autocomplete
-  http://ninjaui.com/autocomplete
-  Copyright 2008-2012 Jamie Hoover
-  Licensed per the terms of the Apache License v2.0
-  http://ninjaui.com/license.txt
-*/
-
-/*jshint
-  strict:true
+/*!
+ninja.autocomplete 1.1.2
+http://ninjaui.com/autocomplete
+Copyright 2008-2012 Jamie Hoover
+Licensed per the terms of the Apache License v2.0
+http://ninjaui.com/license.txt
 */
 
 (function ($) {
@@ -70,8 +66,8 @@
     }
   };
 
-  $.Ninja.prototype.autocomplete = function (element, options) {
-    var autocomplete = $.extend(new $.Ninja.Component(element, options), new $.Ninja.Autocomplete(element, options));
+  $.ninja.autocomplete = function (element, options) {
+    var autocomplete = $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
 
     if (options && options.datalist) {
       autocomplete.datalist = options.datalist;

@@ -1,5 +1,5 @@
 ##[Ninja Autocomplete](http://ninjaui.com/autocomplete)
-*the [jQuery](http://jquery.com/ "jQuery 1.7") plugin for lethal interaction*
+*the [jQuery](http://jquery.com/ "jQuery 1.7+") plugin for lethal interaction*
 
 ###Develop
 
@@ -16,11 +16,11 @@
 
 Build and test latest development version:
 
-    make
+    grunt
 
-**Automatically** watch and rebuild/retest when source/tests change:
+**Automatically** watch and build/test when libraries/tests change:
 
-    make watch
+    grunt develop
 
 ###Authors
 [`uipoet`](/uipoet "Jamie Hoover") and [`faisal`](/faisal "Faisal N. Jawdat")
