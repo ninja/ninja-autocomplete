@@ -1,12 +1,10 @@
 /*!
-ninja.autocomplete 1.1.2
+ninja.autocomplete 1.1.4
 http://ninjaui.com/autocomplete
 Copyright 2008-2012 Jamie Hoover
 Licensed per the terms of the Apache License v2.0
 http://ninjaui.com/license.txt
-*/
-
-(function ($) {
+*/(function ($) {
   'use strict';
 
   $.Ninja.Autocomplete = function (element, options) {

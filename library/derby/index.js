@@ -1,4 +1,6 @@
 var Config = function () {
+  'use strict';
+
   this.filename = __filename;
   this.ns = 'ninja';
   this.scripts = {
@@ -10,6 +12,8 @@ var Config = function () {
 };
 
 function components(derby, options) {
+  'use strict';
+
   derby.createLibrary(new Config(), options);
 }
 

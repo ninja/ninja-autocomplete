@@ -1,6 +1,6 @@
-/*global jQuery*/
-
 exports.create = function (model, dom) {
+  'use strict';
+
   var input = dom.element('input');
 
   (function ($) {
