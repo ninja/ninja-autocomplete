@@ -18,9 +18,13 @@ Build and test latest development version:
 
     grunt
 
-**Automatically** watch and build/test when libraries/tests change:
+Watch and build/test when libraries/tests change:
 
-    grunt develop
+    grunt watch
+
+Live reload in your browser when libraries/tests change:
+
+    grunt browser
 
 ###Authors
 [`uipoet`](/uipoet "Jamie Hoover") and [`faisal`](/faisal "Faisal N. Jawdat")
