@@ -1,6 +1,0 @@
-@charset 'UTF-8';
-.nui-atc{display:inline-block;font:small-caption;position:relative;}
-.nui-atc > input,.nui-atc div{font:inherit}
-.nui-atc > div{background-color:#fff;border-bottom:1px solid #7e9dba;border-top:1px solid #7e9dba;left:0;position:absolute;min-width:100%;z-index:1;}
-.nui-atc > div > div{border-left:1px solid #7e9dba;border-right:1px solid #7e9dba;padding:2px;white-space:nowrap;}
-.nui-atc > div > div.nui-hvr{background-color:#3376dc;color:#fff}

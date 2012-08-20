@@ -1,14 +1,14 @@
 {
-  "name": "ninja.autocomplete",
+  "name": "ninja-autocomplete",
   "version": "1.1.5",
   "description": "Ninja Autocomplete",
   "homepage": "http://ninjaui.com/autocomplete",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ninja/ninja.autocomplete.git"
+    "url": "https://github.com/ninja/ninja-autocomplete.git"
   },
   "bugs": {
-    "url": "http://github.com/ninja/ninja.autocomplete/issues"
+    "url": "http://github.com/ninja/ninja-autocomplete/issues"
   },
   "engines": {
     "node": "0.8",

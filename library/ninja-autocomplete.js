@@ -1,12 +1,16 @@
 /*!
-ninja.autocomplete 1.1.4
-http://ninjaui.com/autocomplete
-Copyright 2008-2012 Jamie Hoover
-Licensed per the terms of the Apache License v2.0
-http://ninjaui.com/license.txt
-*/(function ($) {
+##Begin Immediately-Invoked Function Expression
+
+Assign `jQuery` to `$`.
+
+Enable ECMAScript 5 strict mode.
+*/
+(function ($) {
   'use strict';
 
+/*
+##Autocomplete Constructor
+*/
   $.Ninja.Autocomplete = function (element, options) {
     this.$wrapper = $(element).wrap('<span class="nui-atc">').parent();
     this.$list = $('<div>', {
@@ -133,4 +137,10 @@ http://ninjaui.com/license.txt
       }
     });
   };
-}(window.jQuery));
+
+/*!
+##End Immediately-Invoked Function Expression
+
+Preserve jQuery's state while invoking.
+*/
+}(jQuery));
