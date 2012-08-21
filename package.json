@@ -1,6 +1,6 @@
 {
   "name": "ninja-autocomplete",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Ninja Autocomplete",
   "homepage": "http://ninjaui.com/autocomplete",
   "repository": {
@@ -18,11 +18,7 @@
     "ninja": "1.1"
   },
   "devDependencies": {
-    "dox": "0.3",
-    "grunt": "0.4",
-    "grunt-reload": "0.1",
-    "nib": "0.7",
-    "stylus": "0.29"
+    "grunt": "0.4"
   },
   "main": "library/index",
   "licenses": [
