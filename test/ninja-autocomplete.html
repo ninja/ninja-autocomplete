@@ -1,6 +1,39 @@
-<input id="dvd" placeholder="Amazon DVDs" type="text"/>
-<input id="recipes" placeholder="chicken recipes" type="text"/>
-<input data-ninja="autocomplete" list="treenuts" placeholder="tree nuts" type="text"/>
+<table class="nui-tbl">
+  <thead>
+    <tr>
+      <th>get function</th>
+      <th>datalist array</th>
+      <th>&lt;datalist&gt;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input class="nui-tst-dvd" placeholder="Amazon DVDs" type="text"/>
+      </td>
+      <td>
+        <input class="nui-tst-recipes" placeholder="chicken recipes" type="text"/>
+      </td>
+      <td>
+        <input data-ninja="autocomplete" list="treenuts" placeholder="tree nuts" type="text"/>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="nui-tbl">
+  <thead>
+    <tr>
+      <th>&lt;datalist&gt; <small><i>HTML5 native</i></small></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input list="treenuts" placeholder="tree nuts" type="text"/>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <datalist id="treenuts">
   <option value="Almond"/>
   <option value="Beech nut"/>

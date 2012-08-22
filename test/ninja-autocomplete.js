@@ -65,21 +65,73 @@
     strictEqual(this.instance.index, -1, 'should equal -1');
   });
 
-  module('ninja.autocomplete', {
+  module('ninja.autocompletes', {
     setup: function () {
       this.elements = $('#qunit-fixture').find('input');
     }
   });
 
-  test('is chainable', function () {
-    // Not a bad test to run on collection methods.
+  test('are chainable', function () {
     strictEqual(this.elements.ninja('autocomplete'), this.elements, 'should be chainable');
   });
 
-  test('has class', function () {
+  test('have class', function () {
     this.elements.ninja('autocomplete').each(function () {
       ok($(this).parent().hasClass('nui-atc'), 'wrapper should have nui-atc class');
     });
+  });
+
+  module('ninja.autocomplete.get', {
+    setup: function () {
+      $('input.nui-tst-dvd').ninja('autocomplete', {
+        get: function (q, callback) {
+          $.ajax({
+            url: 'http://completion.amazon.com/search/complete',
+            dataType: 'jsonp',
+            data: {
+              q: q,
+              mkt: 1,
+              'search-alias': 'dvd'
+            },
+            success: function (data) {
+              callback(data[1]);
+            },
+            error: function (request, status, message) {
+              $.error(message);
+            }
+          });
+        }
+      });
+
+      this.element = $('#qunit-fixture').find('input.nui-tst-dvd');
+    }
+  });
+
+  test('has class', function () {
+    ok(this.element.parent().hasClass('nui-atc'), 'wrapper should have nui-atc class');
+  });
+
+  asyncTest('got async results', function () {
+    var element = this.element;
+
+    element.on('keydown', function (event) {
+      event.stopImmediatePropagation();
+    }).val('a').focus();
+
+    setTimeout(function () {
+      element.trigger({
+        type: 'keydown',
+        which: 40
+      }).trigger({
+        type: 'keydown',
+        which: 13
+      });
+
+      strictEqual(element.val(), 'alfred hitchcock', 'should return alfred hitchcock as the first result for typing a');
+
+      start();
+    }, 300);
+
   });
 
   // test('<datalist>', function () {
