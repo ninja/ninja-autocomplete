@@ -14,20 +14,22 @@
     cd ~/Development/ninja.autocomplete
     npm install
 
-Build and test latest development version:
+4a.) Live reload/restyle your browser when libraries/tests change:
 
-    grunt
+    npm start
 
-Watch and build/test when libraries/tests change:
+open `http://localhost:3000/` for documentation or `http://localhost:3000/test` for tests
 
-    grunt watch
+4b.) Or test manually:
 
-Live reload in your browser when libraries/tests change:
+    npm test
 
-    grunt browser
+5.) Commit your changes.
+
+6.) Send a pull request.
 
 ###Authors
-[`uipoet`](/uipoet "Jamie Hoover") and [`faisal`](/faisal "Faisal N. Jawdat")
+[`uipoet`](https://github.com/uipoet "Jamie Hoover") and [`faisal`](https://github.com/faisal "Faisal N. Jawdat")
 
 ###License
 Copyright 2008-2012 Jamie Hoover.

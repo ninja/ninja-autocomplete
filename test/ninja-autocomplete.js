@@ -20,7 +20,7 @@
       raises(block, [expected], [message])
   */
 
-  module('$.Ninja.Autocomplete', {
+  module('constructor', {
     setup: function () {
       this.constructor = $.Ninja.Autocomplete;
     }
@@ -65,7 +65,7 @@
     strictEqual(this.instance.index, -1, 'should equal -1');
   });
 
-  module('ninja.autocompletes', {
+  module('elements', {
     setup: function () {
       this.elements = $('#qunit-fixture').find('input');
     }
@@ -75,13 +75,43 @@
     strictEqual(this.elements.ninja('autocomplete'), this.elements, 'should be chainable');
   });
 
-  test('have class', function () {
+  test('have wrappers', function () {
     this.elements.ninja('autocomplete').each(function () {
-      ok($(this).parent().hasClass('nui-atc'), 'wrapper should have nui-atc class');
+      var $wrapper = $(this).parent();
+
+      ok($wrapper.is('span'), 'should be a span element');
+
+      ok($wrapper.hasClass('nui-atc'), 'wrapper have nui-atc class');
     });
   });
 
-  module('ninja.autocomplete.get', {
+  module('component.datalist', {
+    setup: function () {
+      $('input.nui-tst-recipes').ninja('autocomplete', {
+        datalist: ['chicken recipes', 'chicken recipes for kids', 'chicken recipes healthy', 'chicken recipes easy']
+      });
+
+      this.$element = $('#qunit-fixture').find('input.nui-tst-recipes');
+    }
+  });
+
+  test('has wrapper', function () {
+    var $wrapper = this.$element.parent();
+
+    ok($wrapper.is('span'), 'should be a span element');
+
+    ok($wrapper.hasClass('nui-atc'), 'wrapper have nui-atc class');
+  });
+
+  module('component <datalist>', {
+    setup: function () {
+      $.ninja.initialize();
+
+      this.$element = $('#qunit-fixture').find('input[list]');
+    }
+  });
+
+  module('component.get', {
     setup: function () {
       $('input.nui-tst-dvd').ninja('autocomplete', {
         get: function (q, callback) {
@@ -103,23 +133,30 @@
         }
       });
 
-      this.element = $('#qunit-fixture').find('input.nui-tst-dvd');
+      this.$element = $('#qunit-fixture').find('input.nui-tst-dvd');
     }
   });
 
-  test('has class', function () {
-    ok(this.element.parent().hasClass('nui-atc'), 'wrapper should have nui-atc class');
-  });
-
   asyncTest('got async results', function () {
-    var element = this.element;
+    var
+      $element = this.$element,
+      $wrapper = $element.parent();
 
-    element.on('keydown', function (event) {
+    $element.on('keydown', function (event) {
       event.stopImmediatePropagation();
     }).val('a').focus();
 
     setTimeout(function () {
-      element.trigger({
+      var
+        $list = $wrapper.find('div'),
+        $first = $list.find('div:first-child');
+
+      start();
+
+      ok($list.is('div'), 'list should be a div element');
+
+      stop();
+      $element.trigger({
         type: 'keydown',
         which: 40
       }).trigger({
@@ -127,45 +164,11 @@
         which: 13
       });
 
-      strictEqual(element.val(), 'alfred hitchcock', 'should return alfred hitchcock as the first result for typing a');
+      strictEqual($first.text(), $element.val(), 'should change the input to the first result');
 
       start();
-    }, 300);
+    }, 500);
 
   });
-
-  // test('<datalist>', function () {
-  //   $.ninja.initialize();
-  // });
-
-  // test('option: datalist', function () {
-  //   $('input#recipes').ninja('autocomplete', {
-  //     datalist: ['chicken recipes', 'chicken recipes for kids', 'chicken recipes healthy', 'chicken recipes easy']
-  //   });
-
-  //   $.ninja.initialize();
-  // });
-
-  // test('option: get', function () {
-  //   $('input#dvd').ninja('autocomplete', {
-  //     get: function (q, callback) {
-  //       $.ajax({
-  //         url: 'http://completion.amazon.com/search/complete',
-  //         dataType: 'jsonp',
-  //         data: {
-  //           q: q,
-  //           mkt: 1,
-  //           'search-alias': 'dvd'
-  //         },
-  //         success: function (data) {
-  //           callback(data[1]);
-  //         },
-  //         error: function (request, status, message) {
-  //           $.error(message);
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
 
 }(window.jQuery));
