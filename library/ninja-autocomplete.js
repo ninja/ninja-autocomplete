@@ -10,26 +10,47 @@ Enable ECMAScript 5 strict mode.
 
 /*
 ##Autocomplete Constructor
+
+1. Wrap a `<span>` element around the `<input>` element for positioning the list.
+2. Position the list immediately under the `<input>` element.
+3. Create empty datalist array.
+4. Assign get function.
+5. Initialize the index at -1 to indicate that no choice is active by default.
+6. Create empty matchlist array.
 */
+
   $.Ninja.Autocomplete = function (element, options) {
     this.$wrapper = $(element).wrap('<span class="nui-atc">').parent();
+
     this.$list = $('<div>', {
       css: {
         top: this.$wrapper.height() - 2
       }
     });
+
     this.datalist = [];
-    this.matchlist = [];
+
     if (options && options.get) {
       this.get = options.get;
     }
+
     this.index = -1;
+
+    this.matchlist = [];
   };
 
+/*
+##Last
+
+Determines position of the last available option.
+*/
   $.Ninja.Autocomplete.prototype.last = function () {
     return this.matchlist.length - 1;
   };
 
+/*
+
+*/
   $.Ninja.Autocomplete.prototype.list = function (datalist) {
     var autocomplete = this;
 
@@ -68,6 +89,9 @@ Enable ECMAScript 5 strict mode.
     }
   };
 
+/*
+
+*/
   $.ninja.autocomplete = function (element, options) {
     var autocomplete = $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
 

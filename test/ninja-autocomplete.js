@@ -67,16 +67,16 @@
 
   module('elements', {
     setup: function () {
-      this.elements = $('#qunit-fixture').find('input');
+      this.$elements = $('#qunit-fixture').find('input');
     }
   });
 
   test('are chainable', function () {
-    strictEqual(this.elements.ninja('autocomplete'), this.elements, 'should be chainable');
+    strictEqual(this.$elements.ninja('autocomplete'), this.$elements, 'should be chainable');
   });
 
   test('have wrappers', function () {
-    this.elements.ninja('autocomplete').each(function () {
+    this.$elements.ninja('autocomplete').each(function () {
       var $wrapper = $(this).parent();
 
       ok($wrapper.is('span'), 'should be a span element');
@@ -87,11 +87,30 @@
 
   module('component.datalist', {
     setup: function () {
-      $('input.nui-tst-recipes').ninja('autocomplete', {
-        datalist: ['chicken recipes', 'chicken recipes for kids', 'chicken recipes healthy', 'chicken recipes easy']
+      $('input.nui-tst-treenuts').ninja('autocomplete', {
+        datalist: [
+          'Almond',
+          'Beech nut',
+          'Brazil nut',
+          'Butternut',
+          'Cashew',
+          'Chestnut',
+          'Chinquapin',
+          'Coconut',
+          'Filbert/hazelnut',
+          'Ginko nut',
+          'Hickory nut',
+          'Lichee nut',
+          'Macadamia nut/Bush nut',
+          'Pecan',
+          'Pine nut/Pinon nut',
+          'Pistachio',
+          'Sheanut',
+          'Walnut/Heartnut'
+        ]
       });
 
-      this.$element = $('#qunit-fixture').find('input.nui-tst-recipes');
+      this.$element = $('#qunit-fixture').find('input.nui-tst-treenuts');
     }
   });
 
