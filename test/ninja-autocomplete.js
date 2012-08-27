@@ -134,20 +134,14 @@
   });
 
   test('has wrapper', function () {
-    this.multiple = true;
-
     var $wrapper = this.$element.parent();
 
     ok($wrapper.is('span'), 'should be a span element');
 
     ok($wrapper.hasClass('nui-atc'), 'wrapper have nui-atc class');
-
-    this.multiple = true;
   });
 
-  asyncTest('got results', function () {
-    this.multiple = true;
-
+  test('got results', function () {
     var
       $element = this.$element,
       $wrapper = $element.parent();
@@ -168,8 +162,6 @@
       });
 
       strictEqual($first.text(), $element.val(), 'should change the input to the first result');
-
-      start();
     }).val('a').focus();
   });
 
@@ -191,8 +183,6 @@
   });
 
   asyncTest('got JSONP results', function () {
-    this.multiple = true;
-
     var
       $element = this.$element,
       $wrapper = $element.parent();
