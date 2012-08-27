@@ -10,104 +10,49 @@ Enable ECMAScript 5 strict mode.
 
 /*
 ##Autocomplete Constructor
-
-1. Wrap a `<span>` element around the `<input>` element for positioning the list.
-2. Position the list immediately under the `<input>` element.
-3. Create empty datalist array.
-4. Assign get function.
-5. Initialize the index at -1 to indicate that no choice is active by default.
-6. Create empty matchlist array.
 */
 
   $.Ninja.Autocomplete = function (element, options) {
-    this.$wrapper = $(element).wrap('<span class="nui-atc">').parent();
-
-    this.$list = $('<div>', {
-      css: {
-        top: this.$wrapper.height() - 2
-      }
-    });
-
-    this.datalist = [];
-
-    if (options && options.get) {
-      this.get = options.get;
-    }
-
-    this.index = -1;
-
-    this.matchlist = [];
-  };
-
-/*
-##Last
-
-Determines position of the last available option.
-*/
-  $.Ninja.Autocomplete.prototype.last = function () {
-    return this.matchlist.length - 1;
-  };
-
-/*
-
-*/
-  $.Ninja.Autocomplete.prototype.list = function (datalist) {
     var autocomplete = this;
 
-    if (!$.isFunction(autocomplete.get)) {
-      autocomplete.matchlist = $.map(datalist, function (option) {
-        var value = autocomplete.$element.val();
-
-        if (value !== option && new RegExp('^' + value, 'i').test(option)) {
-          return option;
-        } else {
-          return null;
-        }
-      });
+    if (element) {
+      autocomplete.$element = $(element);
+      if (!autocomplete.$element.is('input')) {
+        $.ninja.error('Autocomplete may only be called with an <input> element.');
+      }
     } else {
-      autocomplete.matchlist = datalist;
-    }
-
-    autocomplete.$list.empty();
-
-    if (autocomplete.matchlist.length > 0) {
-      $.each(autocomplete.matchlist, function () {
-        var option = this;
-
-        $('<div>', {
-          html: option
-        }).on('hover.ninja', function () {
-          $(this).toggleClass('nui-hvr');
-        }).on('mousedown.ninja', function () {
-          autocomplete.$element.val(option);
-        }).appendTo(autocomplete.$list);
-      });
-
-      autocomplete.index = -1;
-
-      autocomplete.$list.appendTo(autocomplete.$wrapper);
-    }
-  };
-
-/*
-
-*/
-  $.ninja.autocomplete = function (element, options) {
-    var autocomplete = $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
-
-    if (options && options.datalist) {
-      autocomplete.datalist = options.datalist;
-    } else if (autocomplete.$element.data('list')) {
-      autocomplete.datalist = autocomplete.$element.data('list');
-    } else if (autocomplete.$element.attr('list')) {
-      $('datalist#' + autocomplete.$element.attr('list')).find('option').each(function () {
-        autocomplete.datalist.push($(this).val());
-      });
+      $.ninja.error('Autocomplete must include an <input> element.');
     }
 
     autocomplete.$element.attr({
       autocomplete: 'off'
     }).removeAttr('list');
+
+    autocomplete.$wrapper = autocomplete.$element.wrap('<span class="nui-atc">').parent();
+
+    autocomplete.$list = $('<div>', {
+      css: {
+        top: this.$wrapper.height() - 2
+      }
+    });
+
+    if (options) {
+      if ('datalist' in options) {
+        autocomplete.datalist = options.datalist;
+      } else {
+        autocomplete.datalist = [];
+      }
+
+      if ('get' in options) {
+        autocomplete.get = options.get;
+      }
+    } else {
+      $.ninja.error('Autocomplete called without options.');
+    }
+
+    autocomplete.index = -1;
+
+    autocomplete.matchlist = [];
 
     autocomplete.$element.on('blur.ninja', function () {
       autocomplete.$list.remove();
@@ -160,6 +105,78 @@ Determines position of the last available option.
         }
       }
     });
+
+    autocomplete.$element.data('ninja', {
+      autocomplete: options
+    });
+
+  };
+
+/*
+##Last
+
+Determines position of the last available option.
+*/
+  $.Ninja.Autocomplete.prototype.last = function () {
+    return this.matchlist.length - 1;
+  };
+
+/*
+##List
+
+Dynamically generates a list of options to display under the `<input>`.
+*/
+  $.Ninja.Autocomplete.prototype.list = function (datalist) {
+    var autocomplete = this;
+
+    if (!$.isFunction(autocomplete.get)) {
+      autocomplete.matchlist = $.map(datalist, function (option) {
+        var value = autocomplete.$element.val();
+
+        if (value !== option && new RegExp('^' + value, 'i').test(option)) {
+          return option;
+        } else {
+          return null;
+        }
+      });
+    } else {
+      autocomplete.matchlist = datalist;
+    }
+
+    autocomplete.$list.empty();
+
+    if (autocomplete.matchlist.length > 0) {
+      $.each(autocomplete.matchlist, function () {
+        var option = this;
+
+        $('<div>', {
+          html: option
+        }).on('hover.ninja', function () {
+          $(this).toggleClass('nui-hvr');
+        }).on('mousedown.ninja', function () {
+          autocomplete.$element.val(option);
+        }).appendTo(autocomplete.$list);
+      });
+
+      autocomplete.index = -1;
+
+      autocomplete.$list.appendTo(autocomplete.$wrapper);
+    }
+  };
+
+/*
+Instance of Autcomplete constructor
+
+Prevents multiple initialization.
+*/
+  $.ninja.autocomplete = function (element, options) {
+    var $element = $(element);
+
+    if ($element.data('ninja') && 'autocomplete' in $element.data('ninja')) {
+      $.ninja.warn('Autocomplete called on the same element multiple times.');
+    } else {
+      $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
+    }
   };
 
 /*!
