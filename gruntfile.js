@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
   'use strict';
 
-  grunt.loadNpmTasks('ninja');
+  grunt.loadTasks('./node_modules/ninja/tasks');
 };
