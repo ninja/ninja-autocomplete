@@ -58,13 +58,17 @@ Enable ECMAScript 5 strict mode.
       autocomplete.$list.remove();
     });
 
+    autocomplete.$element.on('select.ninja', function () {
+      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]).blur();
+    });
+
     autocomplete.$element.on('keydown.ninja', function (event) {
       var keycode = event.which;
 
       if ($.ninja.key(keycode, ['escape', 'tab'])) {
         autocomplete.$list.remove();
       } else if (keycode === $.ninja.keys.enter && autocomplete.index > -1) {
-        autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]).blur();
+        autocomplete.$element.trigger('select.ninja');
       } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
         if (autocomplete.index > -1) {
           autocomplete.$list.find(':eq(' + autocomplete.index + ')').removeClass('nui-hvr');
@@ -146,15 +150,21 @@ Dynamically generates a list of options to display under the `<input>`.
     autocomplete.$list.empty();
 
     if (autocomplete.matchlist.length > 0) {
-      $.each(autocomplete.matchlist, function () {
-        var option = this;
-
+      $.each(autocomplete.matchlist, function (i, option) {
         $('<div>', {
           html: option
+        }).on('mouseenter.ninja', function () {
+          if (autocomplete.index > -1) {
+            autocomplete.$list.find(':eq(' + autocomplete.index + ')').removeClass('nui-hvr');
+          }
+
+          autocomplete.index = i;
         }).on('hover.ninja', function () {
           $(this).toggleClass('nui-hvr');
         }).on('mousedown.ninja', function () {
-          autocomplete.$element.val(option);
+          autocomplete.$element.trigger('select.ninja');
+        }).on('mouseleave.ninja', function () {
+          autocomplete.index = -1;
         }).appendTo(autocomplete.$list);
       });
 

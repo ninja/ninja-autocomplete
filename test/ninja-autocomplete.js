@@ -144,25 +144,31 @@
   test('got results', function () {
     var
       $element = this.$element,
-      $wrapper = $element.parent();
+      $wrapper = $element.parent(),
+      $list,
+      $first;
 
-    $element.on('focus', function () {
-      var
-        $list = $wrapper.find('div'),
-        $first = $list.find('div:first-child');
+    $element.val('a').focus();
 
-      ok($list.is('div'), 'list should be a div element');
+    $list = $wrapper.find('div');
 
-      $element.trigger({
-        type: 'keydown',
-        which: 40
-      }).trigger({
-        type: 'keydown',
-        which: 13
-      });
+    $first = $list.find('div:first-child');
 
-      strictEqual($first.text(), $element.val(), 'should change the input to the first result');
-    }).val('a').focus();
+    ok($list.is('div'), 'list should be a div element');
+
+    $element.trigger({
+      type: 'keydown',
+      which: 40
+    }).trigger({
+      type: 'keydown',
+      which: 13
+    });
+
+    ok($element.on('select.ninja', function () {
+      return true;
+    }), 'should trigger select.ninja event');
+
+    strictEqual($first.text(), $element.val(), 'should change the input to the first result');
   });
 
   module('get: function()', {
