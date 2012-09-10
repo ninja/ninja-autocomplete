@@ -71,7 +71,7 @@ Enable ECMAScript 5 strict mode.
         autocomplete.$element.trigger('select.ninja');
       } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
         if (autocomplete.index > -1) {
-          autocomplete.$list.find(':eq(' + autocomplete.index + ')').removeClass('nui-hvr');
+          autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('nui-hvr');
         }
 
         if (keycode === $.ninja.keys.arrowDown) {
@@ -88,7 +88,7 @@ Enable ECMAScript 5 strict mode.
           }
         }
 
-        autocomplete.$list.find(':eq(' + autocomplete.index + ')').addClass('nui-hvr');
+        autocomplete.$list.find('div:eq(' + autocomplete.index + ')').addClass('nui-hvr');
       }
     });
 
@@ -155,7 +155,7 @@ Dynamically generates a list of options to display under the `<input>`.
           html: option
         }).on('mouseenter.ninja', function () {
           if (autocomplete.index > -1) {
-            autocomplete.$list.find(':eq(' + autocomplete.index + ')').removeClass('nui-hvr');
+            autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('nui-hvr');
           }
 
           autocomplete.index = i;
