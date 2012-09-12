@@ -59,7 +59,9 @@ Enable ECMAScript 5 strict mode.
     });
 
     autocomplete.$element.on('select.ninja', function () {
-      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]).blur();
+      autocomplete.$element.data('ninja-completed', true);
+      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]);
+      autocomplete.$list.remove();
     });
 
     autocomplete.$element.on('keydown.ninja', function (event) {
@@ -93,19 +95,23 @@ Enable ECMAScript 5 strict mode.
     });
 
     autocomplete.$element.on('focus.ninja, keyup.ninja', function (event) {
-      var keycode = event.which;
+      if (autocomplete.$element.data('ninja-completed')) {
+        autocomplete.$element.removeData('ninja-completed');
+      } else {
+        var keycode = event.which;
 
-      if (!autocomplete.$element.val()) {
-        autocomplete.$list.remove();
-      } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
-        if ($.isFunction(autocomplete.get)) {
-          autocomplete.get(autocomplete.$element.val(), function (datalist) {
-            autocomplete.datalist = datalist;
+        if (!autocomplete.$element.val()) {
+          autocomplete.$list.remove();
+        } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
+          if ($.isFunction(autocomplete.get)) {
+            autocomplete.get(autocomplete.$element.val(), function (datalist) {
+              autocomplete.datalist = datalist;
 
-            autocomplete.list(datalist);
-          });
-        } else {
-          autocomplete.list(autocomplete.datalist);
+              autocomplete.list(datalist);
+            });
+          } else {
+            autocomplete.list(autocomplete.datalist);
+          }
         }
       }
     });
