@@ -31,8 +31,9 @@ Enable ECMAScript 5 strict mode.
     autocomplete.$wrapper = autocomplete.$element.wrap('<span class="nui-atc">').parent();
 
     autocomplete.$list = $('<div>', {
+      'class': 'nui-lst',
       css: {
-        top: this.$wrapper.height() - 2
+        top: this.$wrapper.outerHeight()
       }
     });
 
@@ -158,6 +159,7 @@ Dynamically generates a list of options to display under the `<input>`.
     if (autocomplete.matchlist.length > 0) {
       $.each(autocomplete.matchlist, function (i, option) {
         $('<div>', {
+          'class': 'nui-opt',
           html: option
         }).on('mouseenter.ninja', function () {
           if (autocomplete.index > -1) {
@@ -165,8 +167,6 @@ Dynamically generates a list of options to display under the `<input>`.
           }
 
           autocomplete.index = i;
-        }).on('hover.ninja', function () {
-          $(this).toggleClass('nui-hvr');
         }).on('mousedown.ninja', function () {
           autocomplete.$element.trigger('select.ninja');
         }).on('mouseleave.ninja', function () {
