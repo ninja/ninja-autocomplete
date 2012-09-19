@@ -21,7 +21,7 @@
   */
 
   var
-    datalist = [
+    list = [
       'Almond',
       'Beech nut',
       'Brazil nut',
@@ -76,7 +76,7 @@
   module('instance', {
     setup: function () {
       this.instance = new $.Ninja.Autocomplete('<input type="text"/>', {
-        datalist: ['one', 'two', 'three']
+        list: ['one', 'two', 'three']
       });
     }
   });
@@ -93,13 +93,13 @@
   test('.$wrapper', function () {
     ok(this.instance.$wrapper, 'should exist');
     ok(this.instance.$wrapper.is('span'), 'should be a span element');
-    ok(this.instance.$wrapper.hasClass('nui-atc'), 'should have nui-atc class');
+    ok(this.instance.$wrapper.hasClass('ninja-autocomplete'), 'should have autocomplete class');
   });
 
-  test('.datalist', function () {
-    ok(this.instance.datalist, 'should exist');
-    ok($.isArray(this.instance.datalist), 'should be an array');
-    strictEqual(this.instance.datalist[0], 'one', 'first element should match specified option');
+  test('.list', function () {
+    ok(this.instance.list, 'should exist');
+    ok($.isArray(this.instance.list), 'should be an array');
+    strictEqual(this.instance.list[0], 'one', 'first element should match specified option');
   });
 
   test('.index', function () {
@@ -117,19 +117,19 @@
     strictEqual(this.$elements.ninja('autocomplete', {}), this.$elements, 'should be chainable');
   });
 
-  module('datalist: [array]', {
+  module('list: [array]', {
     setup: function () {
-      this.$element = $('#qunit-fixture').find('input.nui-tst-array');
+      this.$element = $('#qunit-fixture').find('input.test-array');
 
       this.$element.ninja('autocomplete', {
-        datalist: datalist
+        list: list
       });
     }
   });
 
   QUnit.done(function () {
-    $('#qunit-examples').find('input.nui-tst-array').ninja('autocomplete', {
-      datalist: datalist
+    $('#qunit-examples').find('input.test-array').ninja('autocomplete', {
+      list: list
     });
   });
 
@@ -138,7 +138,7 @@
 
     ok($wrapper.is('span'), 'should be a span element');
 
-    ok($wrapper.hasClass('nui-atc'), 'wrapper have nui-atc class');
+    ok($wrapper.hasClass('ninja-autocomplete'), 'wrapper have autocomplete class');
   });
 
   test('got results', function () {
@@ -173,7 +173,7 @@
 
   module('get: function()', {
     setup: function () {
-      this.$element = $('#qunit-fixture').find('input.nui-tst-function');
+      this.$element = $('#qunit-fixture').find('input.test-function');
 
       this.$element.ninja('autocomplete', {
         get: amazon
@@ -183,7 +183,7 @@
 
 
   QUnit.done(function () {
-    $('#qunit-examples').find('input.nui-tst-function').ninja('autocomplete', {
+    $('#qunit-examples').find('input.test-function').ninja('autocomplete', {
       get: amazon
     });
   });

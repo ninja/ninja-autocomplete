@@ -28,20 +28,20 @@ Enable ECMAScript 5 strict mode.
       autocomplete: 'off'
     }).removeAttr('list');
 
-    autocomplete.$wrapper = autocomplete.$element.wrap('<span class="nui-atc">').parent();
+    autocomplete.$wrapper = autocomplete.$element.wrap('<span class="ninja-autocomplete">').parent();
 
     autocomplete.$list = $('<div>', {
-      'class': 'nui-lst',
+      'class': 'ninja-list',
       css: {
         top: this.$wrapper.outerHeight()
       }
     });
 
     if (options) {
-      if ('datalist' in options) {
-        autocomplete.datalist = options.datalist;
+      if ('list' in options) {
+        autocomplete.list = options.list;
       } else {
-        autocomplete.datalist = [];
+        autocomplete.list = [];
       }
 
       if ('get' in options) {
@@ -74,7 +74,7 @@ Enable ECMAScript 5 strict mode.
         autocomplete.$element.trigger('select.ninja');
       } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
         if (autocomplete.index > -1) {
-          autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('nui-hvr');
+          autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('ninja-hover');
         }
 
         if (keycode === $.ninja.keys.arrowDown) {
@@ -91,7 +91,7 @@ Enable ECMAScript 5 strict mode.
           }
         }
 
-        autocomplete.$list.find('div:eq(' + autocomplete.index + ')').addClass('nui-hvr');
+        autocomplete.$list.find('div:eq(' + autocomplete.index + ')').addClass('ninja-hover');
       }
     });
 
@@ -105,13 +105,13 @@ Enable ECMAScript 5 strict mode.
           autocomplete.$list.remove();
         } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
           if ($.isFunction(autocomplete.get)) {
-            autocomplete.get(autocomplete.$element.val(), function (datalist) {
-              autocomplete.datalist = datalist;
+            autocomplete.get(autocomplete.$element.val(), function (list) {
+              autocomplete.list = list;
 
-              autocomplete.list(datalist);
+              autocomplete.suggest(list);
             });
           } else {
-            autocomplete.list(autocomplete.datalist);
+            autocomplete.suggest(autocomplete.list);
           }
         }
       }
@@ -137,11 +137,11 @@ Determines position of the last available option.
 
 Dynamically generates a list of options to display under the `<input>`.
 */
-  $.Ninja.Autocomplete.prototype.list = function (datalist) {
+  $.Ninja.Autocomplete.prototype.suggest = function (list) {
     var autocomplete = this;
 
     if (!$.isFunction(autocomplete.get)) {
-      autocomplete.matchlist = $.map(datalist, function (option) {
+      autocomplete.matchlist = $.map(list, function (option) {
         var value = autocomplete.$element.val();
 
         if (value !== option && new RegExp('^' + value, 'i').test(option)) {
@@ -151,7 +151,7 @@ Dynamically generates a list of options to display under the `<input>`.
         }
       });
     } else {
-      autocomplete.matchlist = datalist;
+      autocomplete.matchlist = list;
     }
 
     autocomplete.$list.empty();
@@ -159,11 +159,11 @@ Dynamically generates a list of options to display under the `<input>`.
     if (autocomplete.matchlist.length > 0) {
       $.each(autocomplete.matchlist, function (i, option) {
         $('<div>', {
-          'class': 'nui-opt',
+          'class': 'ninja-item',
           html: option
         }).on('mouseenter.ninja', function () {
           if (autocomplete.index > -1) {
-            autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('nui-hvr');
+            autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('ninja-hover');
           }
 
           autocomplete.index = i;
