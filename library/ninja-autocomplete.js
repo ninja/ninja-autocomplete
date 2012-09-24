@@ -24,10 +24,6 @@ Enable ECMAScript 5 strict mode.
       $.ninja.error('Autocomplete must include an <input> element.');
     }
 
-    autocomplete.$element.attr({
-      autocomplete: 'off'
-    }).removeAttr('list');
-
     autocomplete.$wrapper = autocomplete.$element.wrap('<span class="ninja-autocomplete">').parent();
 
     autocomplete.$list = $('<div>', {
@@ -47,6 +43,10 @@ Enable ECMAScript 5 strict mode.
       if ('get' in options) {
         autocomplete.get = options.get;
       }
+
+      if ('select' in options && $.isFunction(options.select)) {
+        autocomplete.select = options.select;
+      }
     } else {
       $.ninja.error('Autocomplete called without options.');
     }
@@ -55,17 +55,33 @@ Enable ECMAScript 5 strict mode.
 
     autocomplete.matchlist = [];
 
-    autocomplete.$element.on('blur.ninja', function () {
+    autocomplete.$element.attr({
+      autocomplete: 'off'
+    }).data('ninja', {
+      autocomplete: options
+    }).on('blur.ninja', function () {
       autocomplete.$list.remove();
-    });
+    }).on('focus.ninja, keyup.ninja', function (event) {
+      if (autocomplete.$element.data('ninja-completed')) {
+        autocomplete.$element.removeData('ninja-completed');
+      } else {
+        var keycode = event.which;
 
-    autocomplete.$element.on('select.ninja', function () {
-      autocomplete.$element.data('ninja-completed', true);
-      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]);
-      autocomplete.$list.remove();
-    });
+        if (!autocomplete.$element.val()) {
+          autocomplete.$list.remove();
+        } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
+          if ($.isFunction(autocomplete.get)) {
+            autocomplete.get(autocomplete.$element.val(), function (list) {
+              autocomplete.list = list;
 
-    autocomplete.$element.on('keydown.ninja', function (event) {
+              autocomplete.suggest(list);
+            });
+          } else {
+            autocomplete.suggest(autocomplete.list);
+          }
+        }
+      }
+    }).on('keydown.ninja', function (event) {
       var keycode = event.which;
 
       if ($.ninja.key(keycode, ['escape', 'tab'])) {
@@ -93,34 +109,17 @@ Enable ECMAScript 5 strict mode.
 
         autocomplete.$list.find('div:eq(' + autocomplete.index + ')').addClass('ninja-hover');
       }
-    });
+    }).on('select.ninja', function () {
+      autocomplete.$element.data('ninja-completed', true);
 
-    autocomplete.$element.on('focus.ninja, keyup.ninja', function (event) {
-      if (autocomplete.$element.data('ninja-completed')) {
-        autocomplete.$element.removeData('ninja-completed');
-      } else {
-        var keycode = event.which;
+      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]);
 
-        if (!autocomplete.$element.val()) {
-          autocomplete.$list.remove();
-        } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
-          if ($.isFunction(autocomplete.get)) {
-            autocomplete.get(autocomplete.$element.val(), function (list) {
-              autocomplete.list = list;
+      autocomplete.$list.remove();
 
-              autocomplete.suggest(list);
-            });
-          } else {
-            autocomplete.suggest(autocomplete.list);
-          }
-        }
+      if ('select' in autocomplete) {
+        autocomplete.select();
       }
     });
-
-    autocomplete.$element.data('ninja', {
-      autocomplete: options
-    });
-
   };
 
 /*
@@ -161,6 +160,8 @@ Dynamically generates a list of options to display under the `<input>`.
         $('<div>', {
           'class': 'ninja-item',
           html: option
+        }).on('click.ninja', function () {
+          autocomplete.$element.select();
         }).on('mouseenter.ninja', function () {
           if (autocomplete.index > -1) {
             autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('ninja-hover');
