@@ -1,16 +1,5 @@
-/*!
-##Begin Immediately-Invoked Function Expression
-
-Assign `jQuery` to `$`.
-
-Enable ECMAScript 5 strict mode.
-*/
 (function ($) {
   'use strict';
-
-/*
-##Autocomplete Constructor
-*/
 
   $.Ninja.Autocomplete = function (element, options) {
     var autocomplete = this;
@@ -122,20 +111,10 @@ Enable ECMAScript 5 strict mode.
     });
   };
 
-/*
-##Last
-
-Determines position of the last available option.
-*/
   $.Ninja.Autocomplete.prototype.last = function () {
     return this.matchlist.length - 1;
   };
 
-/*
-##List
-
-Dynamically generates a list of options to display under the `<input>`.
-*/
   $.Ninja.Autocomplete.prototype.suggest = function (list) {
     var autocomplete = this;
 
@@ -181,11 +160,6 @@ Dynamically generates a list of options to display under the `<input>`.
     }
   };
 
-/*
-Instance of Autcomplete constructor
-
-Prevents multiple initialization.
-*/
   $.ninja.autocomplete = function (element, options) {
     var $element = $(element);
 
@@ -195,10 +169,4 @@ Prevents multiple initialization.
       $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
     }
   };
-
-/*!
-##End Immediately-Invoked Function Expression
-
-Preserve jQuery's state while invoking.
-*/
 }(jQuery));
