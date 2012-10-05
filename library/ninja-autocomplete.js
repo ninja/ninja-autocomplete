@@ -98,15 +98,19 @@
 
         autocomplete.$list.find('div:eq(' + autocomplete.index + ')').addClass('ninja-hover');
       }
-    }).on('select.ninja', function () {
-      autocomplete.$element.data('ninja-completed', true);
+    }).on('select.ninja', function (event) {
+      if (autocomplete.matchlist[autocomplete.index]) {
+        autocomplete.$element.data('ninja-completed', true);
 
-      autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]);
+        console.log(autocomplete.matchlist[autocomplete.index]);
 
-      autocomplete.$list.remove();
+        autocomplete.$element.val(autocomplete.matchlist[autocomplete.index]);
 
-      if ('select' in autocomplete) {
-        autocomplete.select();
+        autocomplete.$list.remove();
+
+        if ('select' in autocomplete) {
+          autocomplete.select();
+        }
       }
     });
   };
@@ -139,8 +143,6 @@
         $('<div>', {
           'class': 'ninja-item',
           html: option
-        }).on('click.ninja', function () {
-          autocomplete.$element.select();
         }).on('mouseenter.ninja', function () {
           if (autocomplete.index > -1) {
             autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('ninja-hover');
