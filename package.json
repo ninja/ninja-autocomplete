@@ -1,6 +1,6 @@
 {
   "name": "ninja-autocomplete",
-  "version": "1.1.26",
+  "version": "1.2.0",
   "description": "Ninja Autocomplete",
   "homepage": "http://ninjaui.com/autocomplete",
   "repository": {
@@ -11,18 +11,10 @@
     "url": "http://github.com/ninja/ninja-autocomplete/issues"
   },
   "engines": {
-    "node": "0.8",
-    "npm": "1.1"
+    "node": "0.10",
+    "npm": "1.2"
   },
-  "dependencies": {
-    "ninja": "1.1"
-  },
-  "scripts": {
-    "prepublish": "./node_modules/ninja/node_modules/grunt/bin/grunt",
-    "start": "./node_modules/ninja/node_modules/grunt/bin/grunt start",
-    "test": "./node_modules/ninja/node_modules/grunt/bin/grunt test"
-  },
-  "main": "library/ninja-autocomplete",
+  "main": "autocomplete",
   "licenses": [
     {
       "type": "Apache License v2.0",
@@ -31,14 +23,12 @@
   ],
   "author": {
     "name": "Jamie Hoover",
-    "email": "dont.tase@me.com",
-    "url": "http://uipoet.com"
+    "email": "jamie@ninjaui.com"
   },
   "contributors": [
     {
       "name": "Faisal N. Jawdat",
-      "email": "faisal@faisal.com",
-      "url": "http://faisal.com"
+      "email": "faisal@ninjaui.com"
     }
   ]
 }
