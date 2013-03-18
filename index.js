@@ -2,16 +2,16 @@ var
   $ = require('jquery'),
   Ninja = require('ninja');
 
-$.Ninja.Autocomplete = function (element, options) {
+function Autocomplete(element, options) {
   var autocomplete = this;
 
   if (element) {
     autocomplete.$element = $(element);
     if (!autocomplete.$element.is('input')) {
-      Ninja.error('Autocomplete may only be called with an <input> element.');
+      Ninja.console.error('Autocomplete may only be called with an <input> element.');
     }
   } else {
-    Ninja.error('Autocomplete must include an <input> element.');
+    Ninja.console.error('Autocomplete must include an <input> element.');
   }
 
   autocomplete.$wrapper = autocomplete.$element.wrap('<span class="ninja-autocomplete">').parent();
@@ -23,7 +23,7 @@ $.Ninja.Autocomplete = function (element, options) {
     }
   });
 
-  if (options) {
+  if (options && options.length) {
     if ('list' in options) {
       autocomplete.list = options.list;
     } else {
@@ -38,7 +38,7 @@ $.Ninja.Autocomplete = function (element, options) {
       autocomplete.select = options.select;
     }
   } else {
-    Ninja.error('Autocomplete called without options.');
+    Ninja.console.error('Autocomplete called without options.');
   }
 
   autocomplete.index = -1;
@@ -59,7 +59,7 @@ $.Ninja.Autocomplete = function (element, options) {
 
       if (!autocomplete.$element.val()) {
         autocomplete.$list.remove();
-      } else if (!$.ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
+      } else if (!Ninja.key(keycode, ['arrowDown', 'arrowUp', 'escape', 'tab'])) {
         if ($.isFunction(autocomplete.get)) {
           autocomplete.get(autocomplete.$element.val(), function (list) {
             autocomplete.list = list;
@@ -74,16 +74,16 @@ $.Ninja.Autocomplete = function (element, options) {
   }).on('keydown.ninja', function (event) {
     var keycode = event.which;
 
-    if ($.ninja.key(keycode, ['escape', 'tab'])) {
+    if (Ninja.key(keycode, ['escape', 'tab'])) {
       autocomplete.$list.remove();
-    } else if (keycode === $.ninja.keys.enter && autocomplete.index > -1) {
+    } else if (keycode === Ninja.keys.enter && autocomplete.index > -1) {
       autocomplete.$element.trigger('select.ninja');
-    } else if ($.ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
+    } else if (Ninja.key(keycode, ['arrowDown', 'arrowUp'])) {
       if (autocomplete.index > -1) {
         autocomplete.$list.find('div:eq(' + autocomplete.index + ')').removeClass('ninja-hover');
       }
 
-      if (keycode === $.ninja.keys.arrowDown) {
+      if (keycode === Ninja.keys.arrowDown) {
         if (autocomplete.index === autocomplete.last()) {
           autocomplete.index = 0;
         } else {
@@ -112,13 +112,13 @@ $.Ninja.Autocomplete = function (element, options) {
       }
     }
   });
-};
+}
 
-$.Ninja.Autocomplete.prototype.last = function () {
+Autocomplete.prototype.last = function () {
   return this.matchlist.length - 1;
 };
 
-$.Ninja.Autocomplete.prototype.suggest = function (list) {
+Autocomplete.prototype.suggest = function (list) {
   var autocomplete = this;
 
   if (!$.isFunction(autocomplete.get)) {
@@ -161,12 +161,12 @@ $.Ninja.Autocomplete.prototype.suggest = function (list) {
   }
 };
 
-$.ninja.autocomplete = function (element, options) {
+Ninja.prototype.autocomplete = function (element, options) {
   var $element = $(element);
 
   if ($element.data('ninja') && 'autocomplete' in $element.data('ninja')) {
-    Ninja.warn('Autocomplete called on the same element multiple times.');
+    Ninja.console.warn('Autocomplete called on the same element multiple times.');
   } else {
-    $.extend(new $.Ninja(element, options), new $.Ninja.Autocomplete(element, options));
+    $.extend(new Ninja(element, options), new Autocomplete(element, options));
   }
 };
