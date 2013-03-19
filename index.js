@@ -8,10 +8,10 @@ function Autocomplete(element, options) {
   if (element) {
     autocomplete.$element = $(element);
     if (!autocomplete.$element.is('input')) {
-      Ninja.console.error('Autocomplete may only be called with an <input> element.');
+      Ninja.error('Autocomplete may only be called with an <input> element.');
     }
   } else {
-    Ninja.console.error('Autocomplete must include an <input> element.');
+    Ninja.error('Autocomplete must include an <input> element.');
   }
 
   autocomplete.$wrapper = autocomplete.$element.wrap('<span class="ninja-autocomplete">').parent();
@@ -38,7 +38,7 @@ function Autocomplete(element, options) {
       autocomplete.select = options.select;
     }
   } else {
-    Ninja.console.error('Autocomplete called without options.');
+    Ninja.error('Autocomplete called without options.');
   }
 
   autocomplete.index = -1;
@@ -165,7 +165,7 @@ Ninja.prototype.autocomplete = function (element, options) {
   var $element = $(element);
 
   if ($element.data('ninja') && 'autocomplete' in $element.data('ninja')) {
-    Ninja.console.warn('Autocomplete called on the same element multiple times.');
+    Ninja.error('Autocomplete called on the same element multiple times.');
   } else {
     $.extend(new Ninja(element, options), new Autocomplete(element, options));
   }
